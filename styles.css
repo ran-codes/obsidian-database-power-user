@@ -1,0 +1,301 @@
+/* Relational Table Container */
+.relational-table-container {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	font-size: var(--font-ui-small);
+}
+
+/* Table */
+.relational-table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: auto;
+}
+
+/* Header */
+.relational-table thead th {
+	text-align: left;
+	padding: 6px 12px;
+	border-bottom: 2px solid var(--background-modifier-border);
+	font-weight: var(--font-semibold);
+	color: var(--text-muted);
+	font-size: var(--font-smallest);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	position: sticky;
+	top: 0;
+	background: var(--background-primary);
+	z-index: 1;
+	user-select: none;
+	white-space: nowrap;
+}
+
+/* Cells */
+.relational-table td {
+	padding: 6px 12px;
+	border-bottom: 1px solid var(--background-modifier-border);
+	vertical-align: middle;
+}
+
+/* Row hover */
+.relational-table tbody tr:hover td {
+	background-color: var(--background-modifier-hover);
+}
+
+/* Sort indicator */
+.sort-indicator {
+	margin-left: 4px;
+	color: var(--text-faint);
+	font-size: var(--font-smallest);
+}
+
+/* Cell types */
+.cell-empty {
+	display: inline-block;
+	min-height: 1em;
+}
+
+.cell-checkbox {
+	pointer-events: none;
+}
+
+.cell-checkbox-editable {
+	pointer-events: auto;
+	cursor: pointer;
+}
+
+.cell-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 300px;
+	display: inline-block;
+}
+
+.cell-list {
+	display: inline;
+}
+
+.cell-list-item {
+	white-space: nowrap;
+}
+
+/* Relation cell */
+.relation-cell {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	align-items: center;
+	min-height: 24px;
+	cursor: pointer;
+}
+
+.relation-cell:focus {
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: -2px;
+	border-radius: 4px;
+}
+
+/* Relation chips */
+.relation-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 4px 2px 8px;
+	border-radius: 12px;
+	background-color: var(--background-modifier-hover);
+	font-size: var(--font-smallest);
+	max-width: 150px;
+	white-space: nowrap;
+	transition: background-color 100ms ease;
+}
+
+.relation-chip:hover {
+	background-color: var(--background-modifier-active-hover);
+}
+
+.relation-chip-label {
+	color: var(--text-accent);
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.relation-chip-label:hover {
+	text-decoration: underline;
+}
+
+.relation-chip-remove {
+	margin-left: 4px;
+	color: var(--text-faint);
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 1;
+	padding: 0 2px;
+	border-radius: 50%;
+}
+
+.relation-chip-remove:hover {
+	color: var(--text-error);
+	background-color: var(--background-modifier-error);
+}
+
+/* Add relation button */
+.relation-add-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 1px dashed var(--text-faint);
+	background: transparent;
+	color: var(--text-faint);
+	cursor: pointer;
+	font-size: 12px;
+	padding: 0;
+	line-height: 1;
+	transition: all 100ms ease;
+}
+
+.relation-add-btn:hover {
+	border-color: var(--text-accent);
+	color: var(--text-accent);
+}
+
+/* Relation editor wrapper */
+.relation-editor {
+	min-width: 200px;
+}
+
+/* Rollup cells */
+.rollup-cell {
+	font-variant-numeric: tabular-nums;
+}
+
+.rollup-numeric {
+	font-weight: var(--font-medium);
+}
+
+.rollup-percent {
+	color: var(--text-muted);
+}
+
+.rollup-list {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 250px;
+	display: inline-block;
+}
+
+/* Rollup header indicator */
+.rollup-indicator {
+	margin-left: 4px;
+	color: var(--text-faint);
+	font-size: var(--font-smallest);
+	opacity: 0.6;
+}
+
+/* Column resize handle */
+.resize-handle {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 4px;
+	cursor: col-resize;
+	user-select: none;
+	touch-action: none;
+}
+
+.resize-handle:hover,
+.resize-handle.resizing {
+	background-color: var(--interactive-accent);
+	opacity: 0.5;
+}
+
+/* Inline cell editor */
+.cell-inline-editor {
+	width: 100%;
+	padding: 2px 4px;
+	border: 1px solid var(--interactive-accent);
+	border-radius: 4px;
+	background: var(--background-primary);
+	color: var(--text-normal);
+	font-size: inherit;
+	font-family: inherit;
+	outline: none;
+}
+
+/* Cell focus ring (keyboard nav) */
+.cell-focused {
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: -2px;
+	border-radius: 2px;
+}
+
+/* Group header row */
+.group-header-row td {
+	background-color: var(--background-secondary);
+	padding: 4px 12px;
+	font-weight: var(--font-semibold);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.group-toggle {
+	margin-right: 6px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.group-value {
+	color: var(--text-normal);
+}
+
+.group-count {
+	margin-left: 8px;
+	color: var(--text-faint);
+	font-weight: normal;
+	font-size: var(--font-smallest);
+}
+
+/* Summary row */
+.summary-cell {
+	font-variant-numeric: tabular-nums;
+}
+
+.summary-row td {
+	border-top: 2px solid var(--background-modifier-border);
+	padding: 6px 12px;
+	font-weight: var(--font-semibold);
+	color: var(--text-muted);
+	background-color: var(--background-secondary);
+	position: sticky;
+	bottom: 0;
+}
+
+/* File name link */
+.cell-file-name {
+	color: var(--text-accent);
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 300px;
+	display: inline-block;
+}
+
+.cell-file-name:hover {
+	text-decoration: underline;
+}
+
+/* Empty state */
+.relational-table-empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100px;
+	color: var(--text-faint);
+	font-size: var(--font-ui-small);
+}

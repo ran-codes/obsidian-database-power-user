@@ -1,0 +1,38 @@
+{
+	"name": "obsidian-bases-power-user",
+	"version": "0.1.0",
+	"description": "Adds relational table views to Obsidian Bases with relation columns and a note picker.",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+	},
+	"keywords": [
+		"obsidian",
+		"plugin",
+		"bases",
+		"relations",
+		"database"
+	],
+	"license": "MIT",
+	"dependencies": {
+		"@tanstack/react-table": "^8.21.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-select": "^5.8.0",
+		"zustand": "^4.5.0",
+		"@mui/material": "^5.15.0",
+		"@emotion/react": "^11.11.0",
+		"@emotion/styled": "^11.11.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"@types/react": "^18.3.0",
+		"@types/react-dom": "^18.3.0",
+		"builtin-modules": "^3.3.0",
+		"esbuild": "^0.25.0",
+		"obsidian": "latest",
+		"tslib": "^2.8.0",
+		"typescript": "^5.6.0"
+	}
+}

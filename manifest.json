@@ -1,0 +1,10 @@
+{
+	"id": "bases-power-user",
+	"name": "Bases Power User",
+	"version": "0.1.0",
+	"minAppVersion": "1.10.0",
+	"description": "Adds relational table views to Obsidian Bases with relation columns and a note picker.",
+	"author": "",
+	"authorUrl": "",
+	"isDesktopOnly": false
+}

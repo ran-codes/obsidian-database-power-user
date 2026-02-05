@@ -1,0 +1,18 @@
+# Build output
+main.js
+*.map
+
+# Dependencies
+node_modules
+
+# Obsidian
+data.json
+
+# IDE
+.vscode
+*.iml
+.idea
+
+# OS
+.DS_Store
+Thumbs.db

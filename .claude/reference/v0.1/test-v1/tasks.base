@@ -1,0 +1,48 @@
+{
+  "filter": {
+    "conjunction": "and",
+    "conditions": [
+      {
+        "field": "file.folder",
+        "operator": "is",
+        "value": "tasks"
+      },
+      {
+        "field": "file.ext",
+        "operator": "is",
+        "value": "md"
+      }
+    ]
+  },
+  "views": [
+    {
+      "name": "Task Table",
+      "type": "table",
+      "order": [
+        "file.name",
+        "note.project",
+        "note.priority",
+        "note.done",
+        "note.tags"
+      ]
+    },
+    {
+      "name": "Relational View",
+      "type": "relational-table",
+      "order": [
+        "file.name",
+        "note.project",
+        "note.priority",
+        "note.done",
+        "note.tags"
+      ],
+      "options": {
+        "rollupCount": "1",
+        "rollup1_relation": "note.project",
+        "rollup1_target": "hours",
+        "rollup1_aggregation": "sum",
+        "rollup1_name": "Project Hours"
+      }
+    }
+  ]
+}
