@@ -75,8 +75,8 @@ export function EditableCell({
 		);
 	}
 
-	// Null/undefined
-	if (value === null || value === undefined) {
+	// Null/undefined/empty
+	if (value === null || value === undefined || value === 'null') {
 		// If this is a list or tags column, show empty chip editor on click
 		if (isMultitextColumn) {
 			const allValues = table.options.meta?.getColumnValues?.(column.id) || [];

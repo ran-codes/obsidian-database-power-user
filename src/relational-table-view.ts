@@ -295,7 +295,9 @@ export class RelationalTableView extends BasesView {
 		if (value === null || value === undefined) return null;
 
 		// Obsidian Value objects have .data as the actual value
-		if (value.data !== undefined) {
+		// Check for .data presence explicitly (null .data means empty value)
+		if (typeof value === 'object' && value !== null && 'data' in value) {
+			if (value.data === null || value.data === undefined) return null;
 			if (Array.isArray(value.data)) {
 				return value.data.map((v: any) => this.unwrapValue(v));
 			}
