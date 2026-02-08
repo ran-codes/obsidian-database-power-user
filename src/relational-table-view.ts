@@ -29,13 +29,13 @@ export class RelationalTableView extends BasesView {
 		plugin: Plugin
 	) {
 		super(controller);
-		this.viewContainerEl = containerEl;
+		this.viewContainerEl = containerEl.createDiv({ cls: 'relational-table-container' });
 		this.plugin = plugin;
 	}
 
 	onload(): void {
-		this.viewContainerEl.addClass('relational-table-container');
-		this.loadPropertyTypes();
+		// Intentionally minimal — reference plugins keep onload() empty or event-only.
+		// Property types are loaded on-demand in onDataUpdated().
 	}
 
 	/**
@@ -62,10 +62,11 @@ export class RelationalTableView extends BasesView {
 		}
 	}
 
-	async onDataUpdated(): Promise<void> {
-		// Ensure property types are loaded before rendering
+	onDataUpdated(): void {
+		// MUST be synchronous — the framework does not await this callback.
+		// Fire-and-forget property type loading; re-render when ready.
 		if (!this.propertyTypes) {
-			await this.loadPropertyTypes();
+			void this.loadPropertyTypes().then(() => this.renderTable());
 		}
 		this.updateViewOptionsState();
 		this.renderTable();
