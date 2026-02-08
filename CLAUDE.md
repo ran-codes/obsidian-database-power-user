@@ -2,6 +2,18 @@
 
 Obsidian community plugin that extends Bases with relation columns, rollups, and bidirectional sync. Registers a custom "Relational Table" view via the Bases Plugin API (v1.10.0+).
 
+## Rules
+
+- Be Concise - i like quick responses to iterate quickly. Save long responses for when asked about details or planning.
+- Tool use
+  - **Minimize tool calls.** Use Grep, Read, Glob directly — they're fast and parallel. Never spawn a Task agent (subagent) for simple file reads or searches.
+  - **No heavyweight agents for simple operations.** If a skill just needs to read/grep a handful of files, do it inline. If you think a Task agent is needed, ask me first.
+- Formatting
+  - **No empty lines between bullet points.** Keep bullet lists compact.
+  - Empty lines only between major sections (after headings).
+  - **Spaces in task filenames are fine.** Obsidian handles them natively. Folder names still use hyphens (YYYY-MM-DD format). Double hyphens for date ranges: `archive/2026-01-20--2026-01-23/`
+  -
+
 ## Quick Start
 
 ```bash
@@ -56,17 +68,17 @@ src/
 
 Detailed plans and architectural decisions are in `.claude/reference/v0.1/`:
 
-| Document | Content |
-|---|---|
+| Document                | Content                                                                                 |
+| ----------------------- | --------------------------------------------------------------------------------------- |
 | `obsidian-value-api.md` | **CRITICAL**: Runtime shape of Obsidian Value objects (`.data`, not `.values`/`.value`) |
-| `adr/` | Architecture decision records for each major feature |
-| `initial-idea.md` | Problem statement and market opportunity |
-| `initial-evaluation.md` | Feasibility analysis, API capabilities, framework decisions |
-| `plan-phases.md` | High-level phase checklist |
-| `plan-phase-1.md` | Phase 1: MVP scaffold, services, table, relation picker |
-| `plan-phase-2.md` | Phase 2: Rollup columns, aggregation functions, caching |
-| `plan-phase-3.md` | Phase 3: Bidirectional sync, editing parity, polish |
-| `test-v1/` | Test fixture files (copy to vault for testing) |
+| `adr/`                  | Architecture decision records for each major feature                                    |
+| `initial-idea.md`       | Problem statement and market opportunity                                                |
+| `initial-evaluation.md` | Feasibility analysis, API capabilities, framework decisions                             |
+| `plan-phases.md`        | High-level phase checklist                                                              |
+| `plan-phase-1.md`       | Phase 1: MVP scaffold, services, table, relation picker                                 |
+| `plan-phase-2.md`       | Phase 2: Rollup columns, aggregation functions, caching                                 |
+| `plan-phase-3.md`       | Phase 3: Bidirectional sync, editing parity, polish                                     |
+| `test-v1/`              | Test fixture files (copy to vault for testing)                                          |
 
 ## Important Conventions
 
