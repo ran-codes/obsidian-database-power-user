@@ -19,5 +19,6 @@ Deploy **bases-power-user** to the local Obsidian vault for testing. Do NOT buil
    - `main.js`
    - `manifest.json`
    - `styles.css`
+   - `plugin-docs/CLAUDE.md` → `CLAUDE.md`
 
 3. **Report success** and remind the user to reload Obsidian (Ctrl+R) or toggle the plugin off/on in Settings.
