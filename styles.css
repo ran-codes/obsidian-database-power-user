@@ -746,6 +746,11 @@ td.cell-focused {
 	flex-shrink: 0;
 }
 
+.cell-date-empty {
+	width: 100%;
+	min-height: 1.4em;
+}
+
 /* Calendar popup */
 .calendar-popup {
 	position: absolute;

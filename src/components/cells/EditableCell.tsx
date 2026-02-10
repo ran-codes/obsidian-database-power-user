@@ -98,6 +98,22 @@ export function EditableCell({
 
 	// Null/undefined/empty
 	if (value === null || value === undefined || value === 'null') {
+		// Date columns: single-click to open calendar
+		if (isDateColumn || isDatetimeColumn) {
+			return (
+				<span
+					className="cell-date cell-date-empty"
+					onClick={() => setEditing(true)}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') setEditing(true);
+					}}
+					tabIndex={0}
+				>
+					<Calendar size={14} className="cell-date-icon" />
+				</span>
+			);
+		}
+
 		// If this is a list or tags column, show empty chip editor on click
 		if (isMultitextColumn) {
 			const allValues = table.options.meta?.getColumnValues?.(column.id) || [];

@@ -41,6 +41,7 @@ const MONTH_NAMES = [
 
 export function DateEditor({ value, type, onSave, onCancel }: DateEditorProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
+	const savedRef = useRef(false);
 	const parsed = parseDate(value);
 	const [viewYear, setViewYear] = useState(parsed.year);
 	const [viewMonth, setViewMonth] = useState(parsed.month);
@@ -64,6 +65,7 @@ export function DateEditor({ value, type, onSave, onCancel }: DateEditorProps) {
 		setSelectedDay(day);
 		setSelectedYear(viewYear);
 		setSelectedMonth(viewMonth);
+		savedRef.current = true;
 		onSave(buildValue(viewYear, viewMonth, day, timeValue));
 	}, [viewYear, viewMonth, timeValue, buildValue, onSave]);
 
@@ -87,10 +89,12 @@ export function DateEditor({ value, type, onSave, onCancel }: DateEditorProps) {
 		setSelectedDay(todayDay);
 		setSelectedYear(todayYear);
 		setSelectedMonth(todayMonth);
+		savedRef.current = true;
 		onSave(buildValue(todayYear, todayMonth, todayDay, timeValue));
 	}, [todayYear, todayMonth, todayDay, timeValue, buildValue, onSave]);
 
 	const handleClear = useCallback(() => {
+		savedRef.current = true;
 		onSave(null);
 	}, [onSave]);
 
@@ -109,13 +113,9 @@ export function DateEditor({ value, type, onSave, onCancel }: DateEditorProps) {
 	// Close on click outside
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
+			if (savedRef.current) return;
 			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-				// Save current selection if there is one
-				if (selectedDay > 0) {
-					onSave(buildValue(selectedYear, selectedMonth, selectedDay, timeValue));
-				} else {
-					onCancel();
-				}
+				onCancel();
 			}
 		};
 		// Delay to avoid immediate trigger from the double-click that opened us
