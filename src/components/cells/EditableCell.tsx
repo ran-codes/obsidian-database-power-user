@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { Calendar } from 'lucide-react';
 import type { CellContext } from '@tanstack/react-table';
 import type { TableRowData } from '../../types';
 import { TextEditor } from '../editors/TextEditor';
@@ -39,6 +40,7 @@ export function EditableCell({
 	table,
 }: CellContext<TableRowData, unknown>) {
 	const [editing, setEditing] = useState(false);
+	const [calendarOpen, setCalendarOpen] = useState(false);
 	const value = getValue();
 
 	const handleSave = useCallback(
@@ -78,6 +80,7 @@ export function EditableCell({
 				type={isDatetimeColumn ? 'datetime' : 'date'}
 				onSave={handleSave}
 				onCancel={handleCancel}
+				openCalendar={calendarOpen}
 			/>
 		);
 	}
@@ -97,6 +100,27 @@ export function EditableCell({
 
 	// Null/undefined/empty
 	if (value === null || value === undefined || value === 'null') {
+		// Date columns: click opens editor, icon click opens calendar
+		if (isDateColumn || isDatetimeColumn) {
+			return (
+				<span
+					className="cell-date cell-date-empty"
+					onClick={(e) => {
+						const onIcon = (e.target as HTMLElement).closest('.cell-date-icon') !== null;
+						setCalendarOpen(onIcon);
+						setEditing(true);
+					}}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') { setCalendarOpen(false); setEditing(true); }
+					}}
+					tabIndex={0}
+				>
+					<Calendar size={14} className="cell-date-icon" />
+					<span className="cell-date-placeholder">mm/dd/yyyy</span>
+				</span>
+			);
+		}
+
 		// If this is a list or tags column, show empty chip editor on click
 		if (isMultitextColumn) {
 			const allValues = table.options.meta?.getColumnValues?.(column.id) || [];
@@ -126,7 +150,7 @@ export function EditableCell({
 		// Default: empty cell that can be edited
 		return (
 			<span
-				className={`cell-empty ${isFocused ? 'cell-focused' : ''}`}
+				className="cell-empty"
 				onDoubleClick={() => setEditing(true)}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter') setEditing(true);
@@ -247,14 +271,19 @@ export function EditableCell({
 		const formatted = formatDateValue(value, isDatetimeColumn);
 		return (
 			<span
-				className={`cell-date ${isFocused ? 'cell-focused' : ''}`}
-				onDoubleClick={() => setEditing(true)}
+				className="cell-date"
+				onClick={(e) => {
+					const onIcon = (e.target as HTMLElement).closest('.cell-date-icon') !== null;
+					setCalendarOpen(onIcon);
+					setEditing(true);
+				}}
 				onKeyDown={(e) => {
-					if (e.key === 'Enter') setEditing(true);
+					if (e.key === 'Enter') { setCalendarOpen(false); setEditing(true); }
 				}}
 				tabIndex={0}
-				title={value} // Show raw value on hover
+				title={value}
 			>
+				<Calendar size={14} className="cell-date-icon" />
 				{formatted}
 			</span>
 		);
@@ -263,7 +292,7 @@ export function EditableCell({
 	// Text/number — double-click to edit
 	return (
 		<span
-			className={`cell-text ${isFocused ? 'cell-focused' : ''}`}
+			className="cell-text"
 			onDoubleClick={() => setEditing(true)}
 			onKeyDown={(e) => {
 				if (e.key === 'Enter') setEditing(true);
@@ -277,44 +306,31 @@ export function EditableCell({
 
 /**
  * Format a date/datetime string for display.
- * Shows locale-appropriate format for better readability.
+ * Outputs MM/DD/YYYY to match vanilla Bases.
  */
 function formatDateValue(value: string, isDatetime: boolean): string {
 	try {
-		// Parse the date string
-		const date = new Date(value);
-		if (isNaN(date.getTime())) return value;
-
 		if (isDatetime) {
-			// Show date and time
-			return date.toLocaleString(undefined, {
-				year: 'numeric',
-				month: 'short',
-				day: 'numeric',
-				hour: '2-digit',
-				minute: '2-digit',
-			});
+			const match = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+			if (match) {
+				const [, y, m, d, hh, mm] = match;
+				return `${m}/${d}/${y} ${hh}:${mm}`;
+			}
+			const date = new Date(value);
+			if (isNaN(date.getTime())) return value;
+			const mm = String(date.getMonth() + 1).padStart(2, '0');
+			const dd = String(date.getDate()).padStart(2, '0');
+			return `${mm}/${dd}/${date.getFullYear()} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 		} else {
-			// Just date - parse as local date to avoid timezone shift
-			// Input is YYYY-MM-DD, we want to display it without timezone conversion
 			const parts = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
 			if (parts) {
-				const localDate = new Date(
-					parseInt(parts[1]),
-					parseInt(parts[2]) - 1,
-					parseInt(parts[3])
-				);
-				return localDate.toLocaleDateString(undefined, {
-					year: 'numeric',
-					month: 'short',
-					day: 'numeric',
-				});
+				return `${parts[2]}/${parts[3]}/${parts[1]}`;
 			}
-			return date.toLocaleDateString(undefined, {
-				year: 'numeric',
-				month: 'short',
-				day: 'numeric',
-			});
+			const date = new Date(value);
+			if (isNaN(date.getTime())) return value;
+			const mm = String(date.getMonth() + 1).padStart(2, '0');
+			const dd = String(date.getDate()).padStart(2, '0');
+			return `${mm}/${dd}/${date.getFullYear()}`;
 		}
 	} catch {
 		return value;

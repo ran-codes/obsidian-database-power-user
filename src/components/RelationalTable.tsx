@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, ReactNode } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef, ReactNode } from 'react';
 import {
 	FileText,
 	ArrowUpRight,
@@ -10,6 +10,7 @@ import {
 	Zap,
 	Type,
 	Flag,
+	Calendar,
 	ChevronRight,
 	ChevronDown,
 } from 'lucide-react';
@@ -110,6 +111,8 @@ function getColumnTypeIcon(type?: ColumnType): ReactNode {
 		case 'rollup': return <Sigma {...props} />;
 		case 'actions': return <Zap {...props} />;
 		case 'priority': return <Flag {...props} />;
+		case 'date': return <Calendar {...props} />;
+		case 'datetime': return <Calendar {...props} />;
 		case 'text': return <Type {...props} />;
 		default: return null;
 	}
@@ -134,6 +137,18 @@ export function RelationalTable({
 	const [focusedCell, setFocusedCell] = useState<FocusedCell | null>(null);
 	const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
 	const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+	const tableContainerRef = useRef<HTMLDivElement>(null);
+
+	// Clear focus when clicking anywhere outside the table
+	useEffect(() => {
+		const handleOutsideClick = (e: MouseEvent) => {
+			if (tableContainerRef.current && !tableContainerRef.current.contains(e.target as Node)) {
+				setFocusedCell(null);
+			}
+		};
+		document.addEventListener('mousedown', handleOutsideClick);
+		return () => document.removeEventListener('mousedown', handleOutsideClick);
+	}, []);
 
 	const toggleGroup = useCallback((groupKey: string) => {
 		setCollapsedGroups(prev => {
@@ -373,28 +388,33 @@ export function RelationalTable({
 	const renderRows = (rowsToRender: typeof table.getRowModel.prototype.rows) =>
 		rowsToRender.map((row: any) => (
 			<tr key={row.id}>
-				{row.getVisibleCells().map((cell: any, colIdx: number) => (
-					<td
-						key={cell.id}
-						onClick={() =>
-							setFocusedCell({
-								rowIndex: row.index,
-								colIndex: colIdx,
-							})
-						}
-						style={{ width: cell.column.getSize() }}
-					>
-						{flexRender(
-							cell.column.columnDef.cell,
-							cell.getContext()
-						)}
-					</td>
-				))}
+				{row.getVisibleCells().map((cell: any, colIdx: number) => {
+					const isCellFocused = focusedCell?.rowIndex === row.index && focusedCell?.colIndex === colIdx;
+					return (
+						<td
+							key={cell.id}
+							className={isCellFocused ? 'cell-focused' : undefined}
+							onClick={(e) => {
+								e.stopPropagation();
+								setFocusedCell({
+									rowIndex: row.index,
+									colIndex: colIdx,
+								});
+							}}
+							style={{ width: cell.column.getSize() }}
+						>
+							{flexRender(
+								cell.column.columnDef.cell,
+								cell.getContext()
+							)}
+						</td>
+					);
+				})}
 			</tr>
 		));
 
 	return (
-		<div onKeyDown={handleTableKeyDown} tabIndex={-1}>
+		<div ref={tableContainerRef} onKeyDown={handleTableKeyDown} tabIndex={-1}>
 			<table
 				className="relational-table"
 				style={{ width: table.getCenterTotalSize() }}

@@ -5,6 +5,7 @@ Obsidian community plugin that extends Bases with relation columns, rollups, and
 ## Rules
 
 - Be Concise - i like quick responses to iterate quickly. Save long responses for when asked about details or planning.
+- **Always build & deploy after changes.** When iteratively developing locally, always `npm run build` and copy output files to the vault after every code change — don't wait to be asked.
 - Tool use
   - **Minimize tool calls.** Use Grep, Read, Glob directly — they're fast and parallel. Never spawn a Task agent (subagent) for simple file reads or searches.
   - **No heavyweight agents for simple operations.** If a skill just needs to read/grep a handful of files, do it inline. If you think a Task agent is needed, ask me first.
