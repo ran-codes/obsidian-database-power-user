@@ -434,7 +434,11 @@ export class RelationalTableView extends BasesView {
 			if (typeof val === 'boolean') return 'checkbox';
 			if (typeof val === 'number') return 'number';
 			if (Array.isArray(val)) return 'list';
-			if (typeof val === 'string') return 'text';
+			if (typeof val === 'string') {
+				if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(val)) return 'datetime';
+				if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return 'date';
+				return 'text';
+			}
 		}
 
 		return 'text'; // Default
