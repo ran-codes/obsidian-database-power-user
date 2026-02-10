@@ -191,7 +191,7 @@ export function DateEditor({ value, type, onSave, onCancel, openCalendar }: Date
 				/>
 			</span>
 			{showCalendar && (
-				<div className="calendar-popup calendar-popup-dropdown">
+				<div className="calendar-popup calendar-popup-dropdown" onMouseDown={(e) => e.preventDefault()}>
 					<div className="calendar-header">
 						<button className="calendar-nav" onClick={handlePrevMonth} type="button">
 							<ChevronLeft size={16} />
