@@ -233,6 +233,16 @@ export function EditableCell({
 							style={{ backgroundColor: colors.bg }}
 						>
 							<span className="cell-chip-label" style={{ color: colors.text }}>{priorityValue}</span>
+							<span
+								className="cell-chip-remove"
+								onClick={(e) => {
+									e.stopPropagation();
+									table.options.meta?.updateCell?.(row.index, column.id, null);
+								}}
+								title="Remove"
+							>
+								×
+							</span>
 						</span>
 					</div>
 				);
@@ -241,6 +251,16 @@ export function EditableCell({
 				<div className="cell-chip-list" onClick={() => setEditing(true)}>
 					<span className="cell-chip">
 						<span className="cell-chip-label">{priorityValue}</span>
+						<span
+							className="cell-chip-remove"
+							onClick={(e) => {
+								e.stopPropagation();
+								table.options.meta?.updateCell?.(row.index, column.id, null);
+							}}
+							title="Remove"
+						>
+							×
+						</span>
 					</span>
 				</div>
 			);
