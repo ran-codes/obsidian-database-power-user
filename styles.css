@@ -970,3 +970,67 @@ td.cell-focused {
 	background: var(--background-modifier-hover);
 	color: var(--text-normal);
 }
+
+/* Priority Editor - single-select dropdown */
+.priority-editor {
+	display: flex;
+	align-items: center;
+	min-height: 24px;
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: -1px;
+	border-radius: 4px;
+	padding: 2px;
+	background: var(--background-primary);
+	cursor: pointer;
+}
+
+.priority-editor:focus {
+	outline: 2px solid var(--interactive-accent);
+}
+
+.priority-editor-dropdown {
+	z-index: 1000;
+	min-width: 120px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	padding: 4px 0;
+}
+
+.priority-editor-option {
+	display: flex;
+	align-items: center;
+	padding: 6px 10px;
+	cursor: pointer;
+	font-size: var(--font-ui-small);
+	gap: 8px;
+}
+
+.priority-editor-option:hover,
+.priority-editor-option.focused {
+	background: var(--background-modifier-hover);
+}
+
+.priority-editor-option.current {
+	font-weight: var(--font-semibold);
+}
+
+.priority-editor-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 10px;
+	border-radius: 12px;
+	font-size: var(--font-smallest);
+	font-weight: var(--font-semibold);
+	white-space: nowrap;
+	height: 20px;
+	line-height: 20px;
+	box-sizing: border-box;
+}
+
+.priority-editor-check {
+	margin-left: auto;
+	color: var(--interactive-accent);
+	font-size: 12px;
+}
