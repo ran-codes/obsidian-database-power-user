@@ -14,6 +14,13 @@ The exported `plugin-docs/CLAUDE.md` is the agent memory for any vault consuming
 
 If the exported doc drifts from the source code, agents make wrong assumptions about config format, detection behavior, etc. (e.g., putting config inside `options:` instead of view-level flat keys). This skill prevents that drift by regenerating docs from the actual source code and agent-notes.
 
+## Version detection
+
+Detect the current version by listing folders in `.claude/reference/` and picking the most recent semantic version (e.g., `v0.1`, `v0.2`). Use this version to:
+- Read agent-notes from `.claude/reference/<version>/agent-notes/`
+- Read ADRs from `.claude/reference/<version>/adr/`
+- Stamp the output doc with a version header: `<!-- Powerbase docs <version> -->`
+
 ## Sources of truth
 
 Read these in order to build the exported doc. **Never invent — only document what the code actually does.**
@@ -33,11 +40,11 @@ Scan these files for current behavior:
 
 ### 2. Agent notes (friction points)
 
-Read **all files** in `.claude/reference/v0.1/agent-notes/`. Each note describes a specific gotcha that MUST be reflected in the exported doc. These are hard-won lessons — never omit them.
+Read **all files** in `.claude/reference/<version>/agent-notes/`. Each note describes a specific gotcha that MUST be reflected in the exported doc. These are hard-won lessons — never omit them.
 
 ### 3. Architecture decisions
 
-Scan `.claude/reference/v0.1/adr/` for any decisions that affect consumer-facing behavior.
+Scan `.claude/reference/<version>/adr/` for any decisions that affect consumer-facing behavior.
 
 ## Output structure
 
